@@ -1,0 +1,168 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Your Places",
+    "description": "Share beautiful places with people around the world.",
+    "version": "1.0.0"
+  },
+  "host": "localhost:5000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Endpoints related to users"
+    },
+    {
+      "name": "Places",
+      "description": "Endpoints related to places"
+    }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/{pid}": {
+      "get": {
+        "tags": ["Places"],
+        "summary": "Get Place by ID",
+        "operationId": "getPlaceById",
+        "parameters": [
+          { "name": "pid", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "Place details" } }
+      },
+      "patch": {
+        "tags": ["Places"],
+        "summary": "Update Place by ID",
+        "operationId": "updatePlace",
+        "parameters": [
+          { "name": "pid", "in": "path", "required": true, "type": "string" },
+          { "name": "authorization", "in": "header", "type": "string" },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "example": "Updated title" },
+                "description": { "example": "Updated description" }
+              }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "Place updated" } }
+      },
+      "delete": {
+        "tags": ["Places"],
+        "summary": "Delete Place by ID",
+        "operationId": "deletePlace",
+        "parameters": [
+          { "name": "pid", "in": "path", "required": true, "type": "string" },
+          { "name": "authorization", "in": "header", "type": "string" }
+        ],
+        "responses": { "200": { "description": "Place deleted" } }
+      }
+    },
+    "/user/{uid}": {
+      "get": {
+        "tags": ["Places"],
+        "summary": "Get Places by User ID",
+        "operationId": "getPlacesByUserId",
+        "parameters": [
+          { "name": "uid", "in": "path", "required": true, "type": "string" }
+        ],
+        "responses": { "200": { "description": "List of user places" } }
+      }
+    },
+    "/": {
+      "post": {
+        "tags": ["Places"],
+        "summary": "Create New Place",
+        "operationId": "createPlace",
+        "parameters": [
+          { "name": "authorization", "in": "header", "type": "string" },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": { "example": "My new place" },
+                "description": { "example": "Beautiful location" },
+                "address": { "example": "123 Main Street" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "Place created" } }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get All Users",
+        "operationId": "getUsers",
+        "responses": { "200": { "description": "List of users" } }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login User",
+        "operationId": "loginUser",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": { "example": "test@test.com" },
+                "password": { "example": "123456" }
+              }
+            }
+          }
+        ],
+        "responses": { "200": { "description": "Login successful" } }
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Register New User",
+        "operationId": "signupUser",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": { "example": "Ahmed" },
+                "email": { "example": "ahmed@test.com" },
+                "password": { "example": "mypassword" }
+              }
+            }
+          }
+        ],
+        "responses": { "201": { "description": "User created" } }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "example": "u1" },
+          "name": { "type": "string", "example": "Ahmed Mostafa" },
+          "email": { "type": "string", "example": "ahmed@test.com" },
+          "image": { "type": "string", "example": "uploads/images/ahmed.jpg" }
+        }
+      },
+      "AuthResponse": {
+        "type": "object",
+        "properties": {
+          "userId": { "type": "string", "example": "u1" },
+          "token": { "type": "string", "example": "jwt-token-here" }
+        }
+      }
+    }
+  }
+}
