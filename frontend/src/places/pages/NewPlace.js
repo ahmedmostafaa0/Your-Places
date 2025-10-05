@@ -42,18 +42,20 @@ const NewPlace = () => {
   const history = useHistory();
   const placeSubmitHandler = async (event) => {
     event.preventDefault();
-    const formData = new FormData()
-    formData.append('title', formState.inputs.title.value)
-    formData.append('description', formState.inputs.description.value)
-    formData.append('address', formState.inputs.address.value)
-    formData.append('image', formState.inputs.image.value)
-    await sendRequest(
-      `${process.env.REACT_APP_BACKEND_URI}/places`,
-      "POST",
-      formData,
-      {Authorization: 'Bearer ' + auth.token}
-    );
-    history.push("/");
+    try {
+      const formData = new FormData()
+      formData.append('title', formState.inputs.title.value)
+      formData.append('description', formState.inputs.description.value)
+      formData.append('address', formState.inputs.address.value)
+      formData.append('image', formState.inputs.image.value)
+      await sendRequest(
+        `${process.env.REACT_APP_BACKEND_URI}/places`,
+        "POST",
+        formData,
+        {Authorization: 'Bearer ' + auth.token}
+      );
+      history.push("/");
+    } catch (error) {}
   };
 
   return (
