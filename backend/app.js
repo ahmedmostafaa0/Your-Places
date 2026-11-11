@@ -28,7 +28,10 @@ app.use("/api/places", placesRoutes);
 app.use("/api/users", usersRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
-// a
+// health check
+app.get('/', (req, res) => {
+  res.send('server is running')
+})
 
 app.use((req, res) => {
   throw new HttpError("Couldn't find this route.", 404);
@@ -38,5 +41,8 @@ app.use(errorHandler);
 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => app.listen(process.env.PORT || 5000))
+  // .then(() => app.listen(process.env.PORT || 5000))
   .catch((e) => console.log(e));
+
+
+  module.exports = app
