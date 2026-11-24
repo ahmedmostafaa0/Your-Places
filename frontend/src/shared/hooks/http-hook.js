@@ -30,11 +30,16 @@ export const useHttpClient = () => {
           throw new Error(responseData.message);
         }
 
-        setIsLoading(false);
+        setIsLoading(activeHttpRequests.current.length > 0);
         return responseData;
       } catch (err) {
-        setError(err.message);
-        setIsLoading(false);
+        activeHttpRequests.current = activeHttpRequests.current.filter(
+          reqCtrl => reqCtrl !== httpAbortCtrl
+        );
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+        }
+        setIsLoading(activeHttpRequests.current.length > 0);
         throw err;
       }
     },
